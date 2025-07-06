@@ -28,12 +28,17 @@ def stream_users_in_batches(batch_size):
 
 
 def batch_processing(batch_size):
-    """Processes each batch and prints users over the age of 25."""
+    """Processes each batch and returns users over the age of 25."""
+    filtered_users = []
     for batch in stream_users_in_batches(batch_size):
         for user in batch:
             if user[3] > 25:
-                print(user)
+                filtered_users.append(user)
+
+    return filtered_users
 
 
 if __name__ == "__main__":
-    batch_processing(batch_size=5)
+   users = batch_processing(5)
+   for user in users:
+       print(user)
