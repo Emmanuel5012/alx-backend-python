@@ -9,8 +9,8 @@ def connect_db():
     try:
         connection = mysql.connector.connect(
             host="localhost",
-            user="root",        # Replace with your MySQL username if different
-            password="",        # Replace with your MySQL password if set
+            user="root",        
+            password="",        
             port=3306
         )
         return connection
@@ -101,7 +101,7 @@ def insert_data(connection, user_data="user_data.csv"):
     finally:
         cursor.close()
 
-    """Inserts users from a CSV file into the user_data table."""
+    # Inserts users from a CSV file into the user_data table.
     cursor = connection.cursor()
 
     try:
@@ -133,13 +133,13 @@ def insert_data(connection, user_data="user_data.csv"):
         cursor.close()
 
 
-def stream_users(connection):
-    """Generator that streams users from the database one by one."""
-    cursor = connection.cursor()
-    cursor.execute("SELECT * FROM user_data")
-    while True:
-        row = cursor.fetchone()
-        if row is None:
-            break
-        yield row
-    cursor.close()
+# def stream_users(connection):
+#     """Generator that streams users from the database one by one."""
+#     cursor = connection.cursor()
+#     cursor.execute("SELECT * FROM user_data")
+#     while True:
+#         row = cursor.fetchone()
+#         if row is None:
+#             break
+#         yield row
+#     cursor.close()
