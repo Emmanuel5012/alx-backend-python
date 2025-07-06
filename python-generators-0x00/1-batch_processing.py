@@ -29,11 +29,11 @@ def stream_users_in_batches(batch_size):
 
 def batch_processing(batch_size):
     """Processes each batch and prints users over the age of 25."""
-    for batch in stream_users_in_batches(batch_size):  # 👈 1st loop
-        for user in batch:                             # 👈 2nd loop
-            # user = (user_id, name, email, age)
-            if user[3] > 25:  # age is the 4th column (index 3)
+    for batch in stream_users_in_batches(batch_size):
+        for user in batch:
+            if user[3] > 25:
                 print(user)
+
 
 if __name__ == "__main__":
     batch_processing(batch_size=5)
