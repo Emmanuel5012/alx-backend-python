@@ -24,7 +24,8 @@ class DatabaseConnection:
         return self.conn
     
     def __exit__(self, exc_type, exc_val, exc_tb):
-        if self.conn.is_connected():
+        # Close connection
+        if self.conn and self.conn.is_connected():
             self.conn.close()
 
 if __name__ == "__main__":
