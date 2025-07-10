@@ -9,8 +9,9 @@ def connect_db():
     try:
         connection = mysql.connector.connect(
             host="localhost",
-            user="root",        
-            password="",        
+            user="alx_prodev",        
+            password="",
+            database="alx_prodev",        
             port=3306
         )
         return connection
@@ -36,9 +37,9 @@ def connect_to_prodev():
     try:
         connection = mysql.connector.connect(
             host="localhost",
-            user="root",
+            user="alx_prodev",
             password="",
-            database="ALX_prodev",
+            database="alx_prodev",
             port=3306
         )
         return connection

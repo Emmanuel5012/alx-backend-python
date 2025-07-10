@@ -5,9 +5,9 @@ def stream_user_ages():
     try:
         connection = mysql.connector.connect(
             host="localhost",
-            user="root",
+            user="alx_prodev",
             password="",
-            database="ALX_prodev",
+            database="alx_prodev",
             port=3306
         )
         cursor = connection.cursor()
