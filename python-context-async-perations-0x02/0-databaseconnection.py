@@ -1,13 +1,24 @@
 import mysql.connector
 
 class DatabaseConnection:
+    def __init__(self):
+        # Initialize connection settings
+        self.host = "localhost"
+        self.user = "alx_prodev"
+        self.password = ""
+        self.database = "alx_prodev"
+        self.port = 3306
+        self.conn = None
+
+
     def __enter__(self):
+        # Establish connection
         self.conn = mysql.connector.connect(
-            host="localhost",
-            user="alx_prodev",
-            password="",
-            database="alx_prodev",
-            port=3306
+            host=self.host,
+            user=self.user,
+            password=self.password,
+            database=self.database,
+            port=self.port
         )
 
         return self.conn
