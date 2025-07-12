@@ -1,3 +1,4 @@
+from datetime import datetime
 import sqlite3
 import functools
 
@@ -6,9 +7,16 @@ import functools
 def log_queries(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
-        query = kwargs.get('query') if 'query' in kwargs else args[0] if args else None
+        if 'query' in kwargs:
+            query = kwargs['query']
+        elif args:
+            query = args[0]
+        else:
+            query = None
+
         if query:
-            print(f"Executing SQL Query: {query}")
+            now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            print(f"[{now}] Executing SQL Query: {query}")
         return func(*args, **kwargs)
     return wrapper
 
