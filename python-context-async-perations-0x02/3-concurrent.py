@@ -2,7 +2,7 @@ import aiosqlite
 import asyncio
 
 # Async function to fetch all users
-async def async_fetch_users():
+async def asyncfetchusers():
     # Connect to the SQLite database
     async with aiosqlite.connect("users.db") as db:
         async with db.execute("SELECT * FROM users") as cursor:
@@ -13,7 +13,7 @@ async def async_fetch_users():
                 print(row)
 
 # Async function to fetch users older than 40
-async def async_fetch_older_users():
+async def asyncfetcholder_users():
     # Connect to the SQLite database
     async with aiosqlite.connect("users.db") as db:
         async with db.execute("SELECT * FROM users WHERE age > 40") as cursor:
@@ -26,8 +26,8 @@ async def async_fetch_older_users():
 # Run both at the same time
 async def fetch_concurrently():
     await asyncio.gather(
-        async_fetch_users(), 
-        async_fetch_older_users()
+        asyncfetchusers(), 
+        asyncfetcholder_users()
         )
     
 # Run the async program
