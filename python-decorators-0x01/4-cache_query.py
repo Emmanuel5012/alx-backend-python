@@ -4,7 +4,8 @@ import functools
 
 query_cache = {}
 
-### Decorator to handle database connections
+
+# Decorator to handle database connections
 def with_db_connection(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
@@ -16,11 +17,18 @@ def with_db_connection(func):
         return result
     return wrapper
 
-### Decorator to cache query results
+
+# Decorator to cache query results
 def cache_query(func):
     @functools.wraps(func)
-    def wrapper(*args, **kwargs):
-        query = kwargs.get('query') if 'query' in kwargs else args[1] if len(args) > 1 else None
+    def wrapper(*args, **kwargs):         
+        if 'query' in kwargs:
+            query = kwargs['query']
+        elif len(args) > 1:
+            query = args[1]
+        else:
+            query = None
+
 
         if query in query_cache:
             print("[CACHE] Returning cached result for query.")
@@ -39,10 +47,10 @@ def fetch_users_with_cache(conn, query):
     cursor.execute(query)
     return cursor.fetchall()
 
-#### First call will cache the result
+# First call will cache the result
 users = fetch_users_with_cache(query="SELECT * FROM users")
 print(users)
 
-#### Second call will use the cached result
+# Second call will use the cached result
 users_again = fetch_users_with_cache(query="SELECT * FROM users")
 print(users_again)
