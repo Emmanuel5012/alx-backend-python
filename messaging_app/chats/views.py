@@ -1,8 +1,8 @@
-from rest_framework import generics, permissions, viewsets
-from .models import CustomUser, Conversation, Message
-from .serializers import CustomUserSerializer, ConversationSerializer, MessageSerializer
+from rest_framework import viewsets, permissions, status, filters
 from rest_framework.response import Response
-from rest_framwork.exceptions import ValidationError
+from rest_framework.exceptions import ValidationError
+from .models import Conversation, Message
+from .serializers import ConversationSerializer, MessageSerializer
 
 # Create your views here.
 
@@ -15,6 +15,10 @@ class ConversationDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Conversation.objects.all()
     serializer_class = ConversationSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        instance = serializer.save()
+        instance.participants.add(self.request.user)
 
 class MessageCreateView(generics.CreateAPIView):
     queryset = Message.objects.all()
