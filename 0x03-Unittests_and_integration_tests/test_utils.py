@@ -25,4 +25,4 @@ class TestAccessNestedMap(unittest.TestCase):
         """Test accessing nested maps with invalid paths raises KeyError"""
         with self.assertRaises(KeyError) as context:
             access_nested_map(nested_map, path)
-        self.assertEqual(str(context.exception), repr(path[len(nested_map)]))
+        self.assertEqual(str(context.exception), repr(path[-1]))
