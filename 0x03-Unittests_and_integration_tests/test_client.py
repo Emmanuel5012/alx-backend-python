@@ -9,7 +9,7 @@ class TestGithubOrgClient(unittest.TestCase):
     """Test cases for GithubOrgClient class"""
 
     @patch('client.get_json', return_value={"name": "google"})
-    def test_org_memoization(self, mock_get_json):
+    def test_org(self, mock_get_json):
         """Test that @memoize works: get_json is called only once"""
         client = GithubOrgClient("google")
         result1 = client.org
