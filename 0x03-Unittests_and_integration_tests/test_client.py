@@ -12,10 +12,10 @@ class TestGithubOrgClient(unittest.TestCase):
     def test_org_memoization(self, mock_get_json):
         """Test that @memoize works: get_json is called only once"""
         client = GithubOrgClient("google")
-        result_1 = client.org()
-        result_2 = client.org()
+        result1 = client.org
+        result2 = client.org
 
 
-        self.assertEqual(result_1, {"name": "google"})
-        self.assertEqual(result_2, {"name": "google"})
+        self.assertEqual(result1, {"name": "google"})
+        self.assertEqual(result2, {"name": "google"})
         mock_get_json.assert_called_once()
