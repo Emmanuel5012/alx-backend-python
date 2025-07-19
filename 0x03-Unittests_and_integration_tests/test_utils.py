@@ -1,4 +1,4 @@
-#!usr/bin/env python3
+#!/usr/bin/env python3
 """Unit test for utils.access_nested_map"""
 
 import unittest
@@ -16,4 +16,3 @@ class TestAccessNestedMap(unittest.TestCase):
     def test_access_nested_map(self, nested_map, path, expected):
         """Test accessing nested maps with valid paths"""
         self.assertEqual(access_nested_map(nested_map, path), expected)
-        

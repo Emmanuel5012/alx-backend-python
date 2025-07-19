@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # Unittests and Integration Tests
 
 This project contains unit and integration tests for a GitHub organization client built with Python.
