@@ -5,6 +5,7 @@ import unittest
 from parameterized import parameterized
 from utils import access_nested_map
 
+
 class TestAccessNestedMap(unittest.TestCase):
     """Test cases for access_nested_map function"""
 
@@ -19,7 +20,7 @@ class TestAccessNestedMap(unittest.TestCase):
 
     @parameterized.expand([
         ({}, ("a",)),
-        ({"a": 1}, ("a","b")),
+        ({"a": 1}, ("a", "b")),
     ])
     def test_access_nested_map_key_error(self, nested_map, path):
         """Test accessing nested maps with invalid paths raises KeyError"""
