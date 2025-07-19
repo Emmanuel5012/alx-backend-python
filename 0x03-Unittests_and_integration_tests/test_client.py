@@ -19,3 +19,5 @@ class TestGithubOrgClient(unittest.TestCase):
         self.assertEqual(result1, {"name": "google"})
         self.assertEqual(result2, {"name": "google"})
         mock_get_json.assert_called_once()
+
+        self.assertIsInstance(GithubOrgClient.org, property)
