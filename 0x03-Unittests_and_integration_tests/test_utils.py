@@ -1,30 +1,26 @@
 #!/usr/bin/env python3
-"""Unit test for utils.access_nested_map"""
+"""Unit test for utils"""
 
 import unittest
 from unittest.mock import patch, Mock
-from parameterized import parameterized
 from utils import access_nested_map, get_json
+
 
 class TestAccessNestedMap(unittest.TestCase):
     """Test cases for access_nested_map function"""
 
-    @parameterized.expand([
-        ({"a": 1}, ("a",), 1),
-        ({"a": {"b": 2}}, ("a", "b"), 2),
-        ({"a": {"b": 2}}, ("a", "b"), 2),
-    ])
-    def test_access_nested_map(self, nested_map, path, expected):
-        """
-        Test accessing nested maps with valid paths
-        """
-        self.assertEqual(access_nested_map(nested_map, path), expected)
+    def test_access_nested_map(self):
+        """Test accessing nested maps with valid paths"""
+        self.assertEqual(access_nested_map({"a": 1}, ("a",)), 1)
+        self.assertEqual(access_nested_map({"a": {"b": 2}}, ("a", "b")), 2)
+        self.assertEqual(access_nested_map({"a": {"b": 2}}, ("a", "b")), 2)
 
     def test_access_nested_map_key_exception(self):
+        """Test KeyError for missing keys"""
         with self.assertRaises(KeyError) as cm:
             access_nested_map({}, ("a",))
         self.assertEqual(str(cm.exception), "'a'")
-        
+
         with self.assertRaises(KeyError) as cm:
             access_nested_map({"a": 1}, ("a", "b"))
         self.assertEqual(str(cm.exception), "'b'")
@@ -59,4 +55,3 @@ class TestGetJson(unittest.TestCase):
             result = get_json(test_url2)
             self.assertEqual(result, test_payload2)
             mock_get.assert_called_once_with(test_url2, timeout=10)
-            
