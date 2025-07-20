@@ -34,16 +34,29 @@ class TestAccessNestedMap(unittest.TestCase):
 class TestGetJson(unittest.TestCase):
     """Test get_json function"""
 
-    @parameterized.expand([
-        ("http://example.com", {"payload": True}),
-        ("http://holberton.io", {"data": "value"}),
-    ])
     @patch("requests.get")
-    def test_get_json(self, url, expected, mock_get):
+    def test_get_json(self, mock_get):
         """Test get_json returns expected JSON from mocked request"""
-        mock_response = Mock()
-        mock_response.json.return_value = expected
-        mock_get.return_value = mock_response
+        # First test case
+        test_url1 = "http://example.com"
+        test_payload1 = {"payload": True}
+        mock_response1 = Mock()
+        mock_response1.json.return_value = test_payload1
+        mock_get.return_value = mock_response1
 
-        self.assertEqual(get_json(url), expected)
-        mock_get.assert_called_once_with(url, timeout=10)
+        result1 = get_json(test_url1)
+        self.assertEqual(result1, test_payload1)
+        mock_get.assert_called_once_with(test_url1, timeout=10)
+
+        mock_get.reset_mock()  # Clear call history before next test
+
+        # Second test case
+        test_url2 = "http://holberton.io"
+        test_payload2 = {"payload": False}
+        mock_response2 = Mock()
+        mock_response2.json.return_value = test_payload2
+        mock_get.return_value = mock_response2
+
+        result2 = get_json(test_url2)
+        self.assertEqual(result2, test_payload2)
+        mock_get.assert_called_once_with(test_url2, timeout=10)
