@@ -11,7 +11,7 @@
             "driver": "MariaDB",
             "name": "MySql Localhost",
             "database": "alx_prodev",
-            "username": "root",
+            "username": "alx_prodev",
             "password": ""
         }
     ]
