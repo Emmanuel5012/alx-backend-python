@@ -30,14 +30,12 @@ class TestAccessNestedMap(unittest.TestCase):
         self.assertEqual(str(cm.exception), "'b'")
 
 
-
 class TestGetJson(unittest.TestCase):
     """Test get_json function"""
 
     def test_get_json(self):
-        """Tests get_json returns expected result from mocked requests.get"""
+        """Test get_json with mocked requests.get"""
 
-        # First test case
         test_url1 = "http://example.com"
         test_payload1 = {"payload": True}
 
@@ -50,7 +48,6 @@ class TestGetJson(unittest.TestCase):
             self.assertEqual(result, test_payload1)
             mock_get.assert_called_once_with(test_url1, timeout=10)
 
-        # Second test case
         test_url2 = "http://holberton.io"
         test_payload2 = {"payload": False}
 
@@ -62,3 +59,4 @@ class TestGetJson(unittest.TestCase):
             result = get_json(test_url2)
             self.assertEqual(result, test_payload2)
             mock_get.assert_called_once_with(test_url2, timeout=10)
+            
