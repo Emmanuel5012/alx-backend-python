@@ -118,3 +118,4 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
     def tearDownClass(cls):
         """Stop patching requests.get"""
         cls.get_patcher.stop()
+
