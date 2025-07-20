@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Generic utilities for github org client.
 """
+
 from functools import wraps
 from typing import(
     Mapping,
@@ -10,6 +11,7 @@ from typing import(
     Callable,
 )
 import requests
+
 
 __all__ = [
     "access_nested_map",
