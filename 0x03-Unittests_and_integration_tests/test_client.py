@@ -1,23 +1,27 @@
 #!/usr/bin/env python3
-"""Unit tests for the GithubOrgClient class with memoization and license checking."""
+"""Unit tests for GithubOrgClient.org"""
 
 import unittest
 from unittest.mock import patch
+from parameterized import parameterized
 from client import GithubOrgClient
 
+
 class TestGithubOrgClient(unittest.TestCase):
-    """Test cases for GithubOrgClient class"""
+    """Tests for GithubOrgClient"""
 
-    @patch('client.get_json', return_value={"name": "google"})
-    def test_org(self, mock_get_json):
-        """Test that @memoize works: get_json is called only once"""
-        client = GithubOrgClient("google")
-        result1 = client.org
-        result2 = client.org
+    @parameterized.expand([
+        ("google",),
+        ("abc",),
+    ])
+    @patch('client.get_json')
+    def test_org(self, org_name, mock_get_json):
+        """Test that GithubOrgClient.org returns the expected data"""
+        expected_payload = {"login": org_name}
+        mock_get_json.return_value = expected_payload
 
+        client = GithubOrgClient(org_name)
+        result = client.org
 
-        self.assertEqual(result1, {"name": "google"})
-        self.assertEqual(result2, {"name": "google"})
-        mock_get_json.assert_called_once()
-
-        self.assertIsInstance(GithubOrgClient.org, property)
+        mock_get_json.assert_called_once_with(f"https://api.github.com/orgs/{org_name}")
+        self.assertEqual(result, expected_payload)
