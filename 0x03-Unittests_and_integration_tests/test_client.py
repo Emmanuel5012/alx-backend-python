@@ -27,6 +27,15 @@ class TestGithubOrgClient(unittest.TestCase):
             f"https://api.github.com/orgs/{org_name}")
         self.assertEqual(result, expected_payload)
 
+        @parameterized.expand([
+            ({"license": {"key": "my_license"}}, "my_license", True),
+            ({"license": {"key": "other_license"}}, "my_license", False),
+        ])
+        def test_has_license(self, repo, license_key, expected):
+            """Test has_license returns True if repo has the correct license"""
+            result = GithubOrgClient.has_license(repo, license_key)
+            self.assertEqual(result, expected)
+
     def test_public_repos_url(self):
         """Test that _public_repos_url returns correct URL from org"""
         test_url = "https://api.github.com/orgs/test-org/repos"
