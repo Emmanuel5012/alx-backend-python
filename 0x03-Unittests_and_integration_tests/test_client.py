@@ -68,6 +68,7 @@ class TestGithubOrgClient(unittest.TestCase):
         result = GithubOrgClient.has_license(repo, license_key)
         self.assertEqual(result, expected)
 
+
 @parameterized_class([
     {
         "org_payload": TEST_PAYLOAD[0][0],
@@ -113,9 +114,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
                 self.apache2_repos
             )
 
-
     @classmethod
     def tearDownClass(cls):
         """Stop patching requests.get"""
         cls.get_patcher.stop()
-
