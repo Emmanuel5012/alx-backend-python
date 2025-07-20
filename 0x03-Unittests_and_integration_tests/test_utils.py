@@ -29,6 +29,7 @@ class TestAccessNestedMap(unittest.TestCase):
         with self.assertRaises(KeyError) as context:
             access_nested_map(nested_map, path)
         self.assertEqual(str(context.exception), f"'{path[-1]}'")
+        
 
 class TestGetJson(unittest.TestCase):
     """Test get_json function"""
