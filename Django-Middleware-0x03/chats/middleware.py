@@ -1,6 +1,9 @@
 import logging
 from datetime import datetime
 from django.http import HttpResponseForbidden
+from django.utils.timezone import now
+from collections import defaultdict
+import time
 
 # Configure the logger
 logger = logging.getLogger('request_logger')
@@ -61,3 +64,44 @@ class RestrictAccessByTimeMiddleware:
 
         response = self.get_response(request)
         return response
+    
+class OffensiveLanguageMiddleware:
+    """
+    Middleware to filter out offensive language in request data.
+    """
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+        self.message_count = defaultdict(list)
+
+    def __call__(self, request):
+        if request.method == 'POST' and request.path.startswith('/api'):
+            #Get the user's IP address
+            ip_address = self.get_client_ip(request)
+
+            # Get the current time
+            current_time = now()
+
+            # Check how many messages the user has sent in the last minute
+            if len(self.message_count[ip_address]) >= 5:
+                return HttpResponseForbidden("You have sent too many messages. Please wait a minute before sending more.")
+            
+            # Add the current time to the user's message count
+            self.message_count[ip_address].append(current_time)
+
+        #Continue processing the request
+        response = self.get_response(request)
+        # Clean up old messages
+        self.message_count[ip_address] = [t for t in self.message_count[ip_address] if (current_time - t).total_seconds() < 60]
+        return response
+    
+    def get_client_ip(self, request):
+        """
+        Extract the client's IP address from the request.
+        """
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[0]
+        else:
+            ip = request.META.get('REMOTE_ADDR')
+        return ip
