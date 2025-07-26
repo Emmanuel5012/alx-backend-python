@@ -72,7 +72,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'chats.wsgi.application'
+WSGI_APPLICATION = 'django_middleware_0x03.wsgi.application'
 
 
 # Database
