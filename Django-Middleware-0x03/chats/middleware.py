@@ -3,7 +3,6 @@ from datetime import datetime
 from django.http import HttpResponseForbidden
 from django.utils.timezone import now
 from collections import defaultdict
-import time
 
 # Configure the logger
 logger = logging.getLogger('request_logger')
@@ -105,3 +104,26 @@ class OffensiveLanguageMiddleware:
         else:
             ip = request.META.get('REMOTE_ADDR')
         return ip
+    
+
+class RolepermissionMiddleware:
+    """
+    Middleware to check user roles and permissions.
+    """
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        # Check if the user has the required role
+        if request.user.is_authenticated:
+            # Check if the user is either admin or moderator
+            if request.user.role not in ['admin', 'moderator']:
+                return HttpResponseForbidden("You do not have permission to access this resource.")
+            
+        else:
+            return HttpResponseForbidden("You must be logged in to access this resource.")
+        
+        #Call the next middleware or view if the user has the required role
+        response = self.get_response(request)
+        return response
