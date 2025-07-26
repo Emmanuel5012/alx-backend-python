@@ -1,5 +1,6 @@
 import logging
 from datetime import datetime
+from django.http import HttpResponseForbidden
 
 # Configure the logger
 logger = logging.getLogger('request_logger')
@@ -39,4 +40,24 @@ class RequestLoggingMiddleware:
         # Call the next middleware or view
         response = self.get_response(request)
 
+        return response
+
+class RestrictAccessByTimeMiddleware:
+    """
+    Middleware to restrict access to the application based on time.
+    Only allows access between 9 AM and 6 PM.
+    """
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        current_time = datetime.now().time()
+        start_time = current_time.replace(hour=9, minute=0, second=0)
+        end_time = current_time.replace(hour=18, minute=0, second=0)
+
+        if not (start_time <= current_time <= end_time):
+            return HttpResponseForbidden("Access is restricted to 9 AM - 6 PM only.")
+
+        response = self.get_response(request)
         return response
