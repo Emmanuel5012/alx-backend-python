@@ -27,7 +27,7 @@ class IsParticipantOfConversation(permissions.BasePermission):
     
     def has_object_permission(self, request, view, obj):
         # Handle for Message objects linked to a Conversation
-        if request.method in ["GET", "PUSH", "PATCH", "DELETE"]:
+        if request.method in ["GET", "POST", "PUT", "PATCH", "DELETE"]:
             if hasattr(obj, 'conversation'):
                 return request.user in obj.conversation.participants.all()
         # Handle for Conversation objects
