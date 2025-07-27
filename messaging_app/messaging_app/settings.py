@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt',
+    'django_filters',
     'chats',
 ]
 
@@ -57,7 +58,12 @@ ROOT_URLCONF = 'messaging_app.urls'
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'BACKEND': [
+            'django.template.backends.django.DjangoTemplates',
+            'django_filters.rest_framework.DjangoFilterBackend',
+            ]
+        'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+        'PAGE_SIZE': 20,
         'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -65,6 +71,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                
             ],
         },
     },

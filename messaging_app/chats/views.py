@@ -5,6 +5,8 @@ from .models import Conversation, Message
 from .serializers import ConversationSerializer, MessageSerializer
 from .permissions import IsOwner
 from django.shortcuts import get_object_or_404
+from django_filters.rest_framework import DjangoFilterBackend
+from .filters import MessageFilter
 
 
 # Explicit class name: ConversationViewSet
@@ -22,10 +24,13 @@ class ConversationViewSet(viewsets.ModelViewSet):
 class MessageViewSet(viewsets.ModelViewSet):
     serializer_class = MessageSerializer
     permission_classes = [permissions.IsAuthenticated, IsOwner]
+    pagination_class = MessagePagination
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = MessageFilter
 
     def get_queryset(self):
         # Only return messages where the current user is the sender
-        return Message.objects.filter(sender=self.request.user)
+        return Message.objects.filter(conversation_participants=self.request.user)
 
     def perform_create(self, serializer):
         conversation = serializer.validated_data.get('conversation')
