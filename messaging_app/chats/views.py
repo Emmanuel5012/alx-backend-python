@@ -4,6 +4,7 @@ from rest_framework.exceptions import ValidationError
 from .models import Conversation, Message
 from .serializers import ConversationSerializer, MessageSerializer
 from .permissions import IsOwner
+from django.shortcuts import get_object_or_404
 
 
 # Explicit class name: ConversationViewSet
@@ -31,3 +32,23 @@ class MessageViewSet(viewsets.ModelViewSet):
         if self.request.user not in conversation.participants.all():
             raise ValidationError("You are not a participant in this conversation.")
         serializer.save(sender=self.request.user)
+
+    def update(self, request, *args, **kwargs):
+        message = self.get_object()
+        conversation_id = message.conversation.id
+        if request.user not in message.conversation.participants.all():
+            return Response(
+                {"detail": "You are not a participant in this conversation."},
+                status=status.HTTP_403_FORBIDDEN
+            )
+        return super().update(request, *args, **kwargs)
+    
+    def destroy(self, request, *args, **kwargs):
+        message = self.get_object()
+        conversation_id = message.conversation.id
+        if request.user not in message.conversation.participants.all():
+            return Response(
+                {"detail": "You are not a participant in this conversation."},
+                status=status.HTTP_403_FORBIDDEN
+            )
+        return super().destroy(request, *args, **kwargs)
