@@ -13,6 +13,7 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 from .views import ConversationViewSet, MessageViewSet
+from .auth import UserRegistrationView
 
 
 # Explicit: routers.DefaultRouter()
@@ -29,4 +30,6 @@ urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/', include('messaging_app.chats.urls')), 
+    path('register/', UserRegistrationView.as_view(), name='user-register'),
+
 ]
